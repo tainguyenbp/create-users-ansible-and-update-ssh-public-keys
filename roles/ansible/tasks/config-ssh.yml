@@ -1,0 +1,29 @@
+- name: Enable the most secure server auth algos and protocol version
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^Protocol 2'
+    line: 'Protocol 2'
+
+- name: Root login is not allowed for auditing reasons. This is because it's difficult to track which process belongs to which root user
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+
+- name: Permit public key based logins are allowed.
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#?PubkeyAuthentication'
+    line: 'PubkeyAuthentication yes'
+
+
+- name: Disable Password Authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+
+- name: Restart service sshd
+  service:
+    name: sshd
+    state: restarted

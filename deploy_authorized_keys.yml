@@ -1,0 +1,11 @@
+- hosts: update-config-ssh-server-gcp
+  user: root
+  vars:
+### set password create for user
+    - user_password: 'ansible@123456789'
+### set variable for user
+    - user_name: 'ansible'
+
+  gather_facts: yes
+  roles:
+    - "{{ user_name }}"
